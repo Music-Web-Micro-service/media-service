@@ -1,0 +1,25 @@
+server:
+  port: 8088
+
+spring:
+  application:
+    name: mediaservice
+  rabbitmq:
+    host: 192.168.56.105
+    port: 5672
+    username: guest
+    password: guest
+    virtualHost: /
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8061/eureka
+
+minio:
+  endpoint: http://192.168.56.105:9000
+  accessKey: allen123
+  secretKey: qwerty123
+  bucket:
+    videoFile: video-bucket
+    imageFile: image-bucket
