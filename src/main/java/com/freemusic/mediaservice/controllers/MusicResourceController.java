@@ -1,6 +1,7 @@
 package com.freemusic.mediaservice.controllers;
 
 import com.freemusic.mediaservice.messages.MusicInfoRequest;
+import com.freemusic.mediaservice.messages.MusicRelateResponse;
 import com.freemusic.mediaservice.services.MusicResourceService;
 import com.freemusic.musicwebcommon.messages.MusicResourceMessage;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -86,6 +88,16 @@ public class MusicResourceController {
         }
         return new ResponseEntity<>(musicResourceUrl, HttpStatus.OK);
     }
+
+    @GetMapping("/get/files")
+    public ResponseEntity<List<MusicRelateResponse>> getAllMusicRelateFileURL(@RequestParam List<Integer> musicResourceIds, @RequestParam List<Integer> imageIds) {
+        List<MusicRelateResponse> musicRelateResponses = musicResourceService.getAllMusicRelatesUrl(musicResourceIds, imageIds);
+        if (musicRelateResponses == null || musicRelateResponses.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        return new ResponseEntity<>(musicRelateResponses, HttpStatus.OK);
+    }
+
 
     @GetMapping("/get/download/file/{musicResourceId}")
     public ResponseEntity<String> getDownloadFileURL(@PathVariable("musicResourceId") int musicResourceId) {

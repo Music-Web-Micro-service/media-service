@@ -2,6 +2,7 @@ package com.freemusic.mediaservice.services;
 
 
 
+import com.freemusic.mediaservice.messages.MusicRelateResponse;
 import com.freemusic.mediaservice.models.MusicResource;
 import org.jaudiotagger.audio.exceptions.CannotReadException;
 import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
@@ -20,6 +21,8 @@ public interface MusicResourceService {
     public MusicResource getMusicResource(int id);
 
     public String getMusicResourceUrl(int id);
+
+    public List<MusicRelateResponse> getAllMusicRelatesUrl(List<Integer> musicResourceIds, List<Integer> imageIds);
 
     public String getDownloadMusicResourceUrl(int id);
 

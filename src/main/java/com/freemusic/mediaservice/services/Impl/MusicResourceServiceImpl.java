@@ -1,6 +1,8 @@
 package com.freemusic.mediaservice.services.Impl;
 
 import com.freemusic.mediaservice.exceptions.ResourceNotFoundException;
+import com.freemusic.mediaservice.messages.MusicRelateResponse;
+import com.freemusic.mediaservice.models.ImageMedia;
 import com.freemusic.mediaservice.models.MusicResource;
 import com.freemusic.mediaservice.models.ReviewStatus;
 import com.freemusic.mediaservice.repositories.MusicResourceRepository;
@@ -145,6 +147,29 @@ public class MusicResourceServiceImpl implements MusicResourceService {
            String url =  minioService.getFileUrl(objectName, bucketName);
            return url;
     }
+
+    @Override
+    public List<MusicRelateResponse> getAllMusicRelatesUrl(List<Integer> musicResourceIds, List<Integer> imageIds) {
+        List<MusicRelateResponse> responses = new ArrayList<>();
+
+        for (int i = 0; i < musicResourceIds.size(); i++) {
+            MusicRelateResponse musicRelateResponse = new MusicRelateResponse();
+
+            // Getting music URL and image URL for each ID
+            String musicUrl = getMusicResourceUrl(musicResourceIds.get(i));
+            String imageUrl = imageMediaService.getImageMediaUrl(imageIds.get(i));
+
+            // Setting the URLs in the response object
+            musicRelateResponse.setMusicUrl(musicUrl);
+            musicRelateResponse.setImageUrl(imageUrl);
+
+            // Adding the response object to the list of responses
+            responses.add(musicRelateResponse);
+        }
+
+        return responses;
+    }
+
 
     @Override
     public void deleteMusicSource(int mediaId) throws Exception {
